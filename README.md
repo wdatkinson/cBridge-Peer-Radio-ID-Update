@@ -27,3 +27,8 @@ Installation:
 	5). edit id_update.sh so that the SCRIPTPATH variable matches what you chose in #1.  Leave alone if you used default path.
 	6). run the script: ./id_update and confirm no errors are reported.  Check your cBridge and confirm radio/peer ID's are updated.
 	7). schedule cron job to run id_update at your preferred interval.  Every 24 hours is a good place o start.
+
+Tested with:
+
+	CentOS 6.8 with Python 2.7.16, cBridge Version 9463
+	CentOS 7.6.1810 (Core) with Python 2.7.5, cBridge Version 9582
