@@ -4,24 +4,24 @@
 # id_update.sh - cBridge Peer/Radio Mapping Update Script - v3.0 - Bill Atkinson (NF9K) #
 #########################################################################################
 
-PATH=/opt/cbridge-id-update
+SCRIPTPATH=/opt/cbridge-id-update
 
 # ************************* NO CHANGES SHOULD BE NECESSARY BELOW THIS LINE *************************
 
-if [ ! -f "$PATH/config.txt" ]; then
+if [ ! -f "$SCRIPTPATH/config.txt" ]; then
 	echo
 	echo "Config File Missing, Please See README."
 	echo
 	exit 1
 fi
 
-PEERFILE=$PATH/cbridge_peers.csv
-RADIOFILE=$PATH/cbridge_radios.csv
-CUSTOMPEERS=$PATH/custom_peers.csv
-CUSTOMRADIOS=$PATH/custom_radios.csv
-RAWFILE=$PATH/cbridge_radios_raw.csv
-CBUSERNAME=`head -1 $PATH/config.txt`
-CBPASSWORD=`cat $PATH/config.txt | head -2 | tail -1`
+PEERFILE=$SCRIPTPATH/cbridge_peers.csv
+RADIOFILE=$SCRIPTPATH/cbridge_radios.csv
+CUSTOMPEERS=$SCRIPTPATH/custom_peers.csv
+CUSTOMRADIOS=$SCRIPTPATH/custom_radios.csv
+RAWFILE=$SCRIPTPATH/cbridge_radios_raw.csv
+CBUSERNAME=`head -1 $SCRIPTPATH/config.txt`
+CBPASSWORD=`cat $SCRIPTPATH/config.txt | head -2 | tail -1`
 
 
 if [ -f "$PEERFILE" ]; then
