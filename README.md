@@ -15,8 +15,11 @@ Format for each files is:
 Example from my custom_peers.csv:
   
   DMRLink - Parrot -- 1311811,1311811
+  
   DMRLink - Hotspot -- 2311811,2311811
+  
   DMRLink - BM3102 -- 3311811,3311811
+  
   K9MMQ - MMDVM -- 2311802,2311802
 
 Ensure that there are no blank lines, including at the end of the file, otherwise parsing errors may occur during import.
