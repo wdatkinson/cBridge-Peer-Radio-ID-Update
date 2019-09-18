@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#########################################################################################
+# id_update.sh - cBridge Peer/Radio Mapping Update Script - v3.0 - Bill Atkinson (NF9K) #
+#########################################################################################
+
+PATH=/opt/cbridge-id-update
+
+# ************************* NO CHANGES SHOULD BE NECESSARY BELOW THIS LINE *************************
+
+if [ ! -f "$PATH/config.txt" ]; then
+	echo
+	echo "Config File Missing, Please See README."
+	echo
+	exit 1
+fi
+
+PEERFILE=$PATH/cbridge_peers.csv
+RADIOFILE=$PATH/cbridge_radios.csv
+CUSTOMPEERS=$PATH/custom_peers.csv
+CUSTOMRADIOS=$PATH/custom_radios.csv
+RAWFILE=$PATH/cbridge_radios_raw.csv
+CBUSERNAME=`head -1 $PATH/config.txt`
+CBPASSWORD=`cat $PATH/config.txt | head -2 | tail -1`
+
+
+if [ -f "$PEERFILE" ]; then
+	rm $PEERFILE
+fi
+
+if [ -f "$RADIOFILE" ]; then
+	rm $RADIOFILE
+fi
+
+if [ -f "user.csv" ]; then
+        rm user.csv
+fi
+	
+wget -O $PEERFILE https://www.radioid.net/static/cbridge_rptr.csv
+
+sed -i '$ d' $PEERFILE
+
+if [ -f "$CUSTOMPEERS" ]; then
+	cat $CUSTOMPEERS >> $PEERFILE
+fi
+
+python /usr/local/ravennet/upload_ids.py -c $PEERFILE -p -u $CBUSERNAME -d $CBPASSWORD localhost
+ 
+wget -O $RAWFILE https://www.radioid.net/static/user.csv 
+
+awk 'NR==3 {FS=","} {print $2,"-",$3,"-",$5,"-",$6,"--",$1","$1}' $RAWFILE > $RADIOFILE
+
+if [ -f "$CUSTOMRADIOS" ]; then
+        cat $CUSTOMRADIOS >> $RADIOFILE
+fi
+
+python /usr/local/ravennet/upload_ids.py -c $RADIOFILE -r -u $CBUSERNAME -d $CBPASSWORD localhost
+
+if [ -f "$PEERFILE" ]; then
+        rm $PEERFILE
+fi
+
+if [ -f "$RADIOFILE" ]; then
+        rm $RADIOFILE
+fi
+	
+if [ -f "$RAWFILE" ]; then
+	rm $RAWFILE
+fi
