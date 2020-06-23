@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #########################################################################################
-# id_update.sh - cBridge Peer/Radio Mapping Update Script - v3.0 - Bill Atkinson (NF9K) #
+# id_update.sh - cBridge Peer/Radio Mapping Update Script - v3.1 - Bill Atkinson (NF9K) #
 #########################################################################################
 
 SCRIPTPATH=/opt/cbridge-id-update
@@ -36,7 +36,7 @@ if [ -f "user.csv" ]; then
         rm user.csv
 fi
 	
-wget -O $PEERFILE https://www.radioid.net/static/cbridge_rptr.csv
+wget -O $PEERFILE https://database.radioid.net/static/cbridge_rptr.csv
 
 sed -i '$ d' $PEERFILE
 
@@ -46,7 +46,7 @@ fi
 
 python /usr/local/ravennet/upload_ids.py -c $PEERFILE -p -u $CBUSERNAME -d $CBPASSWORD localhost
  
-wget -O $RAWFILE https://www.radioid.net/static/user.csv 
+wget -O $RAWFILE https://database.radioid.net/static/user.csv 
 
 awk 'NR==3 {FS=","} {print $2,"-",$3,"-",$5,"-",$6,"--",$1","$1}' $RAWFILE > $RADIOFILE
 
